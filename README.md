@@ -5,6 +5,9 @@ DE:
 Dieses Programm wurde mit Visual Studio 2017 für das dotNET Framework 4.8. Es läuft unter Windows 10, sollte aber auch überall laufen wo dtNET 4.8 vorhanden ist.
 
 Vorgehen:
+
+Bitwarden Vault Cleaner Release downloaden. Bitte nur von dieser Seite downloaden, weil ich nur hier garantieren kann, dass im Tool keine Spionage Prozeduren eingebaut sind
+
 1. Exportiere dein Bitwarden Tresor unter Werkteuge -> Tresor exportieren als .csv Datei.
 2. Öffne Bitwarden Vault Cleaner und lade die eben erzeugte csv Datei.
 3. Wähle die Kriterien für ein Vergleich aus die zum Suchen von Doppelten Einträgen verwendet werden durch Anklicken/Abklicken der Checkboxen. Default sind alle angewählt.
@@ -21,6 +24,9 @@ EN - Translated with www.DeepL.com/Translator (free version):
 This program was created using Visual Studio 2017 for dotNET Framework 4.8. It runs on Windows 10, but should also run anywhere dtNET 4.8 is available.
 
 Procedure:
+
+Download Bitwarden Vault Cleaner Release. Please download only from this page, because only here I can guarantee that there are no spy procedures built into the tool.
+
 1. Export your Bitwarden Vault under Tools -> Export Vault as a .csv file.
 2. Open Bitwarden Vault Cleaner and load the csv file you just created.
 3. Select the criteria for comparison that will be used to find duplicate entries by clicking/unclicking the checkboxes. By default all of them are selected.
