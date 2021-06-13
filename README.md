@@ -6,10 +6,10 @@ Dieses Programm wurde mit Visual Studio 2017 für das dotNET Framework 4.8. Es l
 
 Vorgehen:
 
-Bitwarden Vault Cleaner Release downloaden. Bitte nur von dieser Seite downloaden, weil ich nur hier garantieren kann, dass im Tool keine Spionage Prozeduren eingebaut sind
+Bitwarden Vault Cleaner Release downloaden. Bitte nur von dieser Seite downloaden, weil ich nur hier garantieren kann, dass im Tool keine Spionage Prozeduren eingebaut sind. Entpacke Bitwarden.Vault.Cleaner.7z.
 
 1. Exportiere dein Bitwarden Tresor unter Werkteuge -> Tresor exportieren als .csv Datei.
-2. Öffne Bitwarden Vault Cleaner und lade die eben erzeugte csv Datei.
+2. Öffne "Bitwarden Vault Cleaner.exe" und lade die eben erzeugte csv Datei.
 3. Wähle die Kriterien für ein Vergleich aus die zum Suchen von Doppelten Einträgen verwendet werden durch Anklicken/Abklicken der Checkboxen. Default sind alle angewählt.
 4. Klicke den Clean Knopf und die doppelten Einträge werden eleminiert.
 5. Wenn gewünscht kannst du Einträge zusammenfassen die sich nur in der URL unterscheiden durch Anklicken des Combine Knopfes.
@@ -25,10 +25,10 @@ This program was created using Visual Studio 2017 for dotNET Framework 4.8. It r
 
 Procedure:
 
-Download Bitwarden Vault Cleaner Release. Please download only from this page, because only here I can guarantee that there are no spy procedures built into the tool.
+Download Bitwarden Vault Cleaner Release. Please download only from this page, because only here I can guarantee that there are no spy procedures built into the tool. Unpack Bitwarden.Vault.Cleaner.7z.
 
 1. Export your Bitwarden Vault under Tools -> Export Vault as a .csv file.
-2. Open Bitwarden Vault Cleaner and load the csv file you just created.
+2. Open "Bitwarden Vault Cleaner.exe" and load the csv file you just created.
 3. Select the criteria for comparison that will be used to find duplicate entries by clicking/unclicking the checkboxes. By default all of them are selected.
 4. Click the Clean button and the duplicate entries will be eliminated.
 5. if you want you can combine entries that differ only in the URI by clicking the Combine button.
