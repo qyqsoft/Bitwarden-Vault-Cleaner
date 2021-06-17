@@ -2,7 +2,7 @@
 
 DE: 
 
-Dieses Programm wurde mit Visual Studio 2017 für das dotNET Framework 4.8. Es läuft unter Windows 10, sollte aber auch überall laufen wo dtNET 4.8 vorhanden ist.
+Dieses Programm wurde mit Visual Studio 2017 und 2019 für das dotNET Framework 4.8. Es läuft unter Windows 10, sollte aber auch überall laufen wo dtNET 4.8 vorhanden ist.
 
 Vorgehen:
 
@@ -21,7 +21,7 @@ Bitwarden Vault Cleaner Release downloaden. Bitte nur von dieser Seite downloade
 
 EN - Translated with www.DeepL.com/Translator (free version):
 
-This program was created using Visual Studio 2017 for dotNET Framework 4.8. It runs on Windows 10, but should also run anywhere dtNET 4.8 is available.
+This program was created using Visual Studio 2017 and 2019 for dotNET Framework 4.8. It runs on Windows 10, but should also run anywhere dtNET 4.8 is available.
 
 Procedure:
 
