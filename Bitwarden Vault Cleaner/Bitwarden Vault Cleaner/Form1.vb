@@ -8,8 +8,8 @@ Public Class Form1
     Private initColWidthList As New List(Of Single)
     Private contentList As New List(Of String())
     Private newContentList As New List(Of String())
-    Private deleteContentList As New List(Of String())
     Private deleteContentIndexList As New List(Of Integer)
+    Private processedContentIndexList As New List(Of Integer)
     Private header As String() = {}
     Private newFileName As String = String.Empty
 
@@ -40,40 +40,79 @@ Public Class Form1
 
 
     Private Sub Tsb_Clean_Click(sender As Object, e As EventArgs) Handles Tsb_Clean.Click
-        Dim changes As New Form2_Chganges
+        Dim changes As Form2_Chganges
         Dim dr As DialogResult
         Dim i As Integer = 0
         '
-        Clean()
-        '
-        ShowContent(changes.Listview_NewContent, contentList, deleteContentIndexList, Color.MistyRose)
-        changes.Label_Changes.Text = Tsl_Info.Text
-        '
-        'Spaltenbreite vom Hauptfenster übernehmen
-        If Lv_Content.Columns.Count > 0 Then
-            For Each ch As ColumnHeader In Lv_Content.Columns
-                If i > 0 Then changes.Listview_NewContent.Columns(i).Width = ch.Width
-                i += 1
-            Next
+        If contentList.Count > 0 Then
+            Clean()
+            '
+            If deleteContentIndexList.Count > 0 Then
+                changes = New Form2_Chganges
+                ShowContent(changes.Listview_NewContent, contentList, deleteContentIndexList, Color.MistyRose, processedContentIndexList)
+                changes.Label_Changes.Text = Tsl_Info.Text
+                For Each cb As CheckBox In Flp_Titel.Controls
+                    If cb.Checked Then changes.Flp_Titel.Controls.Add(New Label With {.Text = cb.Text})
+                Next
+                '
+                'Spaltenbreite vom Hauptfenster übernehmen
+                If Lv_Content.Columns.Count > 0 Then
+                    For Each ch As ColumnHeader In Lv_Content.Columns
+                        If i > 0 Then changes.Listview_NewContent.Columns(i).Width = ch.Width
+                        i += 1
+                    Next
+                End If
+                '
+                dr = changes.ShowDialog
+                If dr = DialogResult.OK Then
+                    contentList.Clear()
+                    contentList.AddRange(newContentList.ToArray)
+                    ShowContent(Lv_Content, contentList, New List(Of Integer), Color.WhiteSmoke, New List(Of Integer))
+                End If
+                '
+                changes.Close()
+                changes.Dispose()
+            Else
+                MsgBox("No double entries found with your" & vbNewLine & "selected criteria for comparison.", MsgBoxStyle.OkOnly, "Bitwarden Vault Cleaner")
+            End If
         End If
-        '
-        dr = changes.ShowDialog
-        If dr = DialogResult.OK Then
-            contentList.Clear()
-            contentList.AddRange(newContentList.ToArray)
-            ShowContent(Lv_Content, contentList, New List(Of Integer), Color.White)
-        End If
-        '
-        changes.Close()
-        changes.Dispose()
     End Sub
 
 
     Private Sub Tsb_Combine_Click(sender As Object, e As EventArgs) Handles Tsb_Combine.Click
-        'Combine()
-        'contentList.Clear()
-        'contentList.AddRange(newContentList.ToArray)
-        'ShowContent(contentList)
+        Dim changes As Form2_Chganges
+        Dim dr As DialogResult
+        Dim i As Integer = 0
+        '
+        If contentList.Count > 0 Then
+            Combine()
+            '
+            If deleteContentIndexList.Count > 0 Then
+                changes = New Form2_Chganges
+                ShowContent(changes.Listview_NewContent, contentList, deleteContentIndexList, Color.WhiteSmoke, processedContentIndexList)
+                changes.Label_Changes.Text = Tsl_Info.Text
+                '
+                'Spaltenbreite vom Hauptfenster übernehmen
+                If Lv_Content.Columns.Count > 0 Then
+                    For Each ch As ColumnHeader In Lv_Content.Columns
+                        If i > 0 Then changes.Listview_NewContent.Columns(i).Width = ch.Width
+                        i += 1
+                    Next
+                End If
+                '
+                dr = changes.ShowDialog
+                If dr = DialogResult.OK Then
+                    contentList.Clear()
+                    contentList.AddRange(newContentList.ToArray)
+                    ShowContent(Lv_Content, contentList, New List(Of Integer), Color.White, New List(Of Integer))
+                End If
+                '
+                changes.Close()
+                changes.Dispose()
+            Else
+                MsgBox("No entries can be combined.", MsgBoxStyle.OkOnly, "Bitwarden Vault Cleaner")
+            End If
+        End If
     End Sub
 
 
@@ -127,7 +166,7 @@ Public Class Form1
                     fs.Dispose()
                 Catch ex As Exception
                     Me.Cursor = Cursors.Default
-                    MsgBox("Write error: " & ex.Message, "Bitwarden Vault Cleaner")
+                    MsgBox("Write error: " & ex.Message, MsgBoxStyle.OkOnly, "Bitwarden Vault Cleaner")
                 End Try
             End If
             '
@@ -137,7 +176,7 @@ Public Class Form1
     End Sub
 
 
-    Private Sub ShowContent(lView As ListView, cList As List(Of String()), markIndexList As List(Of Integer), markColor As Color)
+    Private Sub ShowContent(lView As ListView, cList As List(Of String()), markIndexList As List(Of Integer), markColor As Color, orgIndexList As List(Of Integer))
         If cList.Count <= 0 Then Exit Sub
         '
         Dim i As Integer = 0
@@ -174,6 +213,7 @@ Public Class Form1
         i = 0
         For Each s As String() In cList
             lvi = New ListViewItem(i.ToString)
+            If orgIndexList.Contains(i) Then lvi.BackColor = Color.Honeydew
             If markIndexList.Contains(i) Then lvi.BackColor = markColor
             '
             For Each t As String In s
@@ -210,7 +250,13 @@ Public Class Form1
             reader.TextFieldType = FieldType.Delimited
             reader.Delimiters = {","}
             '
+            headerDict.Clear()
+            initColWidthList.Clear()
             contentList.Clear()
+            newContentList.Clear()
+            deleteContentIndexList.Clear()
+            processedContentIndexList.Clear()
+            header = {}
             Flp_Titel.Controls.Clear()
             '
             While Not reader.EndOfData
@@ -237,13 +283,13 @@ Public Class Form1
                     '
                     i += 1
                 Catch ex As Microsoft.VisualBasic.FileIO.MalformedLineException
-                    MsgBox("Line " & ex.Message & "is not valid and will be skipped.", "Bitwarden Vault Cleaner")
+                    MsgBox("Line " & ex.Message & "is not valid and will be skipped.", MsgBoxStyle.OkOnly, "Bitwarden Vault Cleaner")
                 End Try
                 '
             End While
             '
             Flp_Titel.Refresh()
-            ShowContent(Lv_Content, contentList, New List(Of Integer), Color.White)
+            ShowContent(Lv_Content, contentList, New List(Of Integer), Color.White, New List(Of Integer))
         End If
     End Sub
 
@@ -275,8 +321,8 @@ Public Class Form1
         Dim checkMask As New List(Of Boolean)
         '
         newContentList = New List(Of String())
-        deleteContentList = New List(Of String())
         deleteContentIndexList = New List(Of Integer)
+        processedContentIndexList = New List(Of Integer)
         '
         For Each cb As CheckBox In Flp_Titel.Controls
             If cb.Checked Then checkMask.Add(True) Else checkMask.Add(False)
@@ -286,28 +332,32 @@ Public Class Form1
         If z > 0 AndAlso contentList.Count > 0 Then
             Me.Cursor = Cursors.WaitCursor
             '
-            Dim d As Integer = 0
-            Dim fnd As Integer
             Dim workList As New List(Of String())(contentList)
             Dim s() As String
+            Dim fnd As Integer
+            Dim d As Integer = 0
             '
             z = 0
             While z <= workList.Count - 1
                 s = workList.ElementAt(z)
-                '
+                '                '
                 Do
                     fnd = FindDouble(s, workList, checkMask)
                     '
-                    If fnd >= 0 AndAlso fnd > z Then
-                        deleteContentList.Add(s)
+                    If fnd > 0 AndAlso fnd <> z Then
+                        For i As Integer = 0 To s.Length - 1
+                            If s(i).IndexOf(workList(fnd)(i)) < 0 Then
+                                If s(i).Length <= 0 Then s(i) &= workList(fnd)(i) Else s(i) &= "," & workList(fnd)(i)
+                            End If
+                        Next
+                        processedContentIndexList.Add(z + d) 'contentList.IndexOf(s))
                         deleteContentIndexList.Add(fnd + d)
-                        d += 1
                         workList.RemoveAt(fnd) 'gefundenes Element löschen um nicht mehrmals gefunden zu werden
-                    Else
-                        newContentList.Add(s)
+                        d += 1
                     End If
                 Loop Until fnd < 0
                 '
+                newContentList.Add(s)
                 z += 1
                 Tsl_Info.Text = "Processed: " & (z + d).ToString & " / " & contentList.Count.ToString & "   Double entries: " & d.ToString
             End While
@@ -321,60 +371,54 @@ Public Class Form1
 
     Private Sub Combine()
         Dim z As Integer = 0
-        Dim checkedHeaders As New List(Of Integer)
-        Dim combCol As Integer = -1
-        Dim workDict As New Dictionary(Of Integer, String())
+        Dim checkMask As New List(Of Boolean)
+        Dim uriIndexList As New List(Of Integer)
         '
         newContentList = New List(Of String())
+        deleteContentIndexList = New List(Of Integer)
+        processedContentIndexList = New List(Of Integer)
         '
-        For Each s As String() In contentList
-            workDict.Add(z, s)
-            z += 1
-        Next
-        '
-        z = 0
         For Each cb As CheckBox In Flp_Titel.Controls
-            If cb.Text.ToLower.IndexOf("_uri") > 0 Then
-                combCol = z
+            If cb.Text.ToLower.IndexOf("_uri") > 0 Or cb.Text.ToLower.IndexOf("_url") > 0 Then
+                checkMask.Add(False)
+                uriIndexList.Add(z)
             Else
-                checkedHeaders.Add(z)
+                checkMask.Add(True)
             End If
             z += 1
         Next
         '
-        If combCol >= 0 AndAlso contentList.Count > 0 Then
-            Dim i As Integer = 0
-            Dim fnd As Integer
-            Dim srch As String
-            Dim d As Integer = 0
-            Dim s As String()
-            '
-            z = 0
+        If z > 0 AndAlso contentList.Count > 0 Then
             Me.Cursor = Cursors.WaitCursor
             '
-            While z <= contentList.Count - 1
-                s = contentList.ElementAt(z)
-                '
-                'Suchstring erstellen
-                srch = String.Empty
-                i = 0
-                For Each t As String In s
-                    If i <> combCol Then srch &= t
-                    i += 1
-                Next
+            Dim workList As New List(Of String())(contentList)
+            Dim s() As String
+            Dim fnd As Integer
+            Dim d As Integer = 0
+            '
+            z = 0
+            While z <= workList.Count - 1
+                s = workList.ElementAt(z)
                 '
                 Do
-                    fnd = FindDouble(srch, z, checkedHeaders)
-                    If fnd >= 0 AndAlso fnd <> z Then
-                        s(combCol) &= "," & contentList.ElementAt(fnd)(combCol)
+                    fnd = FindDouble(s, workList, checkMask)
+                    '
+                    If fnd >= 0 AndAlso fnd > z Then
+                        For Each i As Integer In uriIndexList
+                            If s(i).IndexOf(workList.ElementAt(fnd)(i)) < 0 Then s(i) &= "," & workList.ElementAt(fnd)(i)
+                        Next
+                        '
+                        processedContentIndexList.Add(contentList.IndexOf(s))
+                        deleteContentIndexList.Add(fnd + d)
+                        '
                         d += 1
-                        contentList.RemoveAt(fnd) 'gefundenes Element löschen um ewiges Zufügen von URLs zu verhindern
+                        workList.RemoveAt(fnd) 'gefundenes Element löschen um ewiges Zufügen von URLs zu verhindern
                     End If
                 Loop Until fnd < 0
                 '
                 newContentList.Add(s)
                 z += 1
-                Tsl_Info.Text = "Processed: " & z.ToString & " / " & contentList.Count.ToString & "   Combined entries: " & d.ToString
+                Tsl_Info.Text = "Processed: " & (z + d).ToString & " / " & contentList.Count.ToString & "   Combined entries: " & d.ToString
             End While
         End If
         '

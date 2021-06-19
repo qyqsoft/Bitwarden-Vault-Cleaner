@@ -28,6 +28,7 @@ Partial Class Form2_Chganges
         Me.Button_Accept = New System.Windows.Forms.Button()
         Me.Button_Cancel = New System.Windows.Forms.Button()
         Me.Label_Changes = New System.Windows.Forms.Label()
+        Me.Flp_Titel = New System.Windows.Forms.FlowLayoutPanel()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -40,11 +41,11 @@ Partial Class Form2_Chganges
         Me.Listview_NewContent.GridLines = True
         Me.Listview_NewContent.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.Listview_NewContent.HideSelection = False
-        Me.Listview_NewContent.Location = New System.Drawing.Point(2, 2)
+        Me.Listview_NewContent.Location = New System.Drawing.Point(2, 72)
         Me.Listview_NewContent.MultiSelect = False
         Me.Listview_NewContent.Name = "Listview_NewContent"
         Me.Listview_NewContent.ShowGroups = False
-        Me.Listview_NewContent.Size = New System.Drawing.Size(782, 306)
+        Me.Listview_NewContent.Size = New System.Drawing.Size(782, 256)
         Me.Listview_NewContent.TabIndex = 3
         Me.Listview_NewContent.UseCompatibleStateImageBehavior = False
         Me.Listview_NewContent.View = System.Windows.Forms.View.Details
@@ -55,9 +56,9 @@ Partial Class Form2_Chganges
         Me.Panel1.Controls.Add(Me.Button_Cancel)
         Me.Panel1.Controls.Add(Me.Button_Accept)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel1.Location = New System.Drawing.Point(0, 314)
+        Me.Panel1.Location = New System.Drawing.Point(0, 328)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(784, 47)
+        Me.Panel1.Size = New System.Drawing.Size(784, 33)
         Me.Panel1.TabIndex = 4
         '
         'Button_Accept
@@ -65,7 +66,7 @@ Partial Class Form2_Chganges
         Me.Button_Accept.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_Accept.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Button_Accept.ForeColor = System.Drawing.Color.DarkGreen
-        Me.Button_Accept.Location = New System.Drawing.Point(574, 12)
+        Me.Button_Accept.Location = New System.Drawing.Point(574, 6)
         Me.Button_Accept.Name = "Button_Accept"
         Me.Button_Accept.Size = New System.Drawing.Size(117, 23)
         Me.Button_Accept.TabIndex = 0
@@ -77,7 +78,7 @@ Partial Class Form2_Chganges
         Me.Button_Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.Button_Cancel.ForeColor = System.Drawing.Color.DarkRed
-        Me.Button_Cancel.Location = New System.Drawing.Point(697, 12)
+        Me.Button_Cancel.Location = New System.Drawing.Point(697, 6)
         Me.Button_Cancel.Name = "Button_Cancel"
         Me.Button_Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Button_Cancel.TabIndex = 1
@@ -88,11 +89,22 @@ Partial Class Form2_Chganges
         '
         Me.Label_Changes.AutoSize = True
         Me.Label_Changes.ForeColor = System.Drawing.Color.Navy
-        Me.Label_Changes.Location = New System.Drawing.Point(13, 17)
+        Me.Label_Changes.Location = New System.Drawing.Point(13, 11)
         Me.Label_Changes.Name = "Label_Changes"
         Me.Label_Changes.Size = New System.Drawing.Size(73, 13)
         Me.Label_Changes.TabIndex = 2
         Me.Label_Changes.Text = "                      "
+        '
+        'Flp_Titel
+        '
+        Me.Flp_Titel.AutoScroll = True
+        Me.Flp_Titel.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.Flp_Titel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Flp_Titel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Flp_Titel.Location = New System.Drawing.Point(0, 0)
+        Me.Flp_Titel.Name = "Flp_Titel"
+        Me.Flp_Titel.Size = New System.Drawing.Size(784, 66)
+        Me.Flp_Titel.TabIndex = 5
         '
         'Form2_Chganges
         '
@@ -101,6 +113,7 @@ Partial Class Form2_Chganges
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Button_Cancel
         Me.ClientSize = New System.Drawing.Size(784, 361)
+        Me.Controls.Add(Me.Flp_Titel)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Listview_NewContent)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -120,4 +133,5 @@ Partial Class Form2_Chganges
     Friend WithEvents Button_Cancel As Button
     Friend WithEvents Button_Accept As Button
     Friend WithEvents Label_Changes As Label
+    Friend WithEvents Flp_Titel As FlowLayoutPanel
 End Class
