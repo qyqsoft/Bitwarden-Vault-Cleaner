@@ -35,7 +35,8 @@ Partial Class Form1
         Me.Lv_Content = New System.Windows.Forms.ListView()
         Me.Flp_Titel = New System.Windows.Forms.FlowLayoutPanel()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
-        Me.Tssl_File = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.Tssl_Source = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.Tssl_Rows = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -82,11 +83,13 @@ Partial Class Form1
         Me.Tsb_Combine.Name = "Tsb_Combine"
         Me.Tsb_Combine.Size = New System.Drawing.Size(102, 22)
         Me.Tsb_Combine.Text = "Combine URIs"
+        Me.Tsb_Combine.Visible = False
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 25)
+        Me.ToolStripSeparator2.Visible = False
         '
         'Tsb_Save
         '
@@ -135,17 +138,31 @@ Partial Class Form1
         '
         'StatusStrip1
         '
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Tssl_File})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 428)
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Tssl_Source, Me.Tssl_Rows})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 426)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(1000, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1000, 24)
         Me.StatusStrip1.TabIndex = 4
         '
-        'Tssl_File
+        'Tssl_Source
         '
-        Me.Tssl_File.ForeColor = System.Drawing.Color.Navy
-        Me.Tssl_File.Name = "Tssl_File"
-        Me.Tssl_File.Size = New System.Drawing.Size(0, 17)
+        Me.Tssl_Source.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.Tssl_Source.ForeColor = System.Drawing.Color.Navy
+        Me.Tssl_Source.Name = "Tssl_Source"
+        Me.Tssl_Source.Size = New System.Drawing.Size(65, 19)
+        Me.Tssl_Source.Text = "Source:     "
+        '
+        'Tssl_Rows
+        '
+        Me.Tssl_Rows.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+            Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.Tssl_Rows.ForeColor = System.Drawing.Color.Navy
+        Me.Tssl_Rows.Name = "Tssl_Rows"
+        Me.Tssl_Rows.Size = New System.Drawing.Size(57, 19)
+        Me.Tssl_Rows.Text = "Rows:     "
         '
         'Form1
         '
@@ -177,9 +194,10 @@ Partial Class Form1
     Friend WithEvents Flp_Titel As FlowLayoutPanel
     Friend WithEvents Tsl_Info As ToolStripLabel
     Friend WithEvents StatusStrip1 As StatusStrip
-    Friend WithEvents Tssl_File As ToolStripStatusLabel
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
     Friend WithEvents Tsb_Combine As ToolStripButton
+    Friend WithEvents Tssl_Source As ToolStripStatusLabel
+    Friend WithEvents Tssl_Rows As ToolStripStatusLabel
 End Class

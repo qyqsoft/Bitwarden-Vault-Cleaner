@@ -21,3 +21,20 @@ C:\Users\mic\source\repos\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Re
 C:\Users\mic\source\repos\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden Vault Cleaner.exe
 C:\Users\mic\source\repos\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden Vault Cleaner.xml
 C:\Users\mic\source\repos\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden Vault Cleaner.pdb
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\bin\Release\Bitwarden Vault Cleaner.exe.config
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\bin\Release\Bitwarden Vault Cleaner.exe.manifest
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\bin\Release\Bitwarden Vault Cleaner.application
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\bin\Release\Bitwarden Vault Cleaner.exe
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\bin\Release\Bitwarden Vault Cleaner.pdb
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\bin\Release\Bitwarden Vault Cleaner.xml
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden Vault Cleaner.vbproj.AssemblyReference.cache
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden_Vault_Cleaner.Form1.resources
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden_Vault_Cleaner.Form2_Chganges.resources
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden_Vault_Cleaner.Resources.resources
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden Vault Cleaner.vbproj.GenerateResource.cache
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden Vault Cleaner.vbproj.CoreCompileInputs.cache
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden Vault Cleaner.exe.manifest
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden Vault Cleaner.application
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden Vault Cleaner.exe
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden Vault Cleaner.xml
+C:\Users\mic\Source\Repos\Bitwarden-Vault-Cleaner\Bitwarden Vault Cleaner\Bitwarden Vault Cleaner\obj\Release\Bitwarden Vault Cleaner.pdb

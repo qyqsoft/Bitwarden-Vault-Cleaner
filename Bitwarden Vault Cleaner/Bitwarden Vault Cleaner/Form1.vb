@@ -32,7 +32,7 @@ Public Class Form1
             Flp_Titel.Controls.Clear()
             OpenCsv(ofd.FileName)
             newFileName = Path.Combine(Path.GetDirectoryName(ofd.FileName), Path.GetFileNameWithoutExtension(ofd.FileName) & "_clean." & Path.GetExtension(ofd.FileName))
-            Tssl_File.Text = ofd.FileName
+            Tssl_Source.Text = "Source: " & ofd.FileName
         End If
         '
         ofd.Dispose()
@@ -52,13 +52,26 @@ Public Class Form1
                 ShowContent(changes.Listview_NewContent, contentList, deleteContentIndexList, Color.MistyRose, processedContentIndexList)
                 changes.Label_Changes.Text = Tsl_Info.Text
                 For Each cb As CheckBox In Flp_Titel.Controls
-                    If cb.Checked Then changes.Flp_Titel.Controls.Add(New Label With {.Text = cb.Text})
+                    If cb.Checked Then
+                        changes.Flp_Titel.Controls.Add(New Label With {.Text = cb.Text})
+                        '
+                        For Each ch As ColumnHeader In changes.Listview_NewContent.Columns
+                            If cb.Text = ch.Text Then ch.Text = "* " & ch.Text
+                        Next
+                    End If
                 Next
                 '
                 'Spaltenbreite vom Hauptfenster übernehmen
                 If Lv_Content.Columns.Count > 0 Then
                     For Each ch As ColumnHeader In Lv_Content.Columns
-                        If i > 0 Then changes.Listview_NewContent.Columns(i).Width = ch.Width
+                        'If i > 0 Then changes.Listview_NewContent.Columns(i).Width = ch.Width
+                        If i > 0 Then
+                            If changes.Listview_NewContent.Columns(i).Text.IndexOf("* ") = 0 Then
+                                changes.Listview_NewContent.Columns(i).Width = ch.Width + 20
+                            Else
+                                changes.Listview_NewContent.Columns(i).Width = ch.Width
+                            End If
+                        End If
                         i += 1
                     Next
                 End If
@@ -152,9 +165,9 @@ Public Class Form1
                         line = String.Empty
                         '
                         For Each t As String In s
-                            If t.IndexOf(","c) >= 0 Then line &= """"
+                            If t.Contains(",") Then line &= """"
                             line &= t
-                            If t.IndexOf(","c) >= 0 Then line &= """"
+                            If t.Contains(",") Then line &= """"
                             line &= ","
                         Next
                         '
@@ -205,7 +218,7 @@ Public Class Form1
         i = 0
         For Each h As String In header
             If headerWidthList.Count >= i + 1 Then hw = headerWidthList.ElementAt(i) Else hw = 80
-            ch = New ColumnHeader With {.Name = h, .Text = h, .Width = hw}
+            ch = New ColumnHeader With {.Name = "colhead_" & h, .Text = h, .Width = hw}
             chList.Add(ch)
             i += 1
         Next
@@ -223,6 +236,8 @@ Public Class Form1
             lviList.Add(lvi)
             i += 1
         Next
+        '
+        If lView Is Lv_Content Then Tssl_Rows.Text = "Rows: " & i.ToString
         '
         FillListview(lView, chList, lviList)
     End Sub
@@ -272,7 +287,15 @@ Public Class Form1
                         Next
                         '
                         For Each currentField As String In currentRow
-                            cb = New CheckBox With {.Text = currentField, .Checked = True}
+                            cb = New CheckBox With {.Text = currentField}
+                            Select Case currentField
+                                Case "type", "name", "login_username", "login_password", "login_totp"
+                                    cb.Checked = True
+                                Case "folder", "favorite", "notes", "fields", "login_uri"
+                                    cb.Checked = False
+                                Case Else
+                                    cb.Checked = True
+                            End Select
                             Flp_Titel.Controls.Add(cb)
                             initColWidthList.Add(GetTextSize(currentField))
                         Next
@@ -316,9 +339,44 @@ Public Class Form1
     End Sub
 
 
+    Private Function CleanUriString(uri As String) As String
+        Dim ret As String = String.Empty
+        Dim u() As String = uri.Split(","c)
+        '
+        For Each s As String In u
+            ret &= s.TrimEnd("/"c) & ","
+        Next
+        '
+        Return ret.TrimEnd(",c")
+    End Function
+
+
+    Private Function NoDoubleUri(uri As String) As String
+        Dim ret As String = String.Empty
+        Dim uriList As New List(Of String)(uri.Split(","c))
+        Dim i As Integer = 0
+        Dim k As Integer
+        '
+        If uriList.Count > 0 Then
+            Do
+                k = uriList.LastIndexOf(uriList.Item(i))
+                If k > i Then uriList.RemoveAt(k)
+                i += 1
+            Loop Until i >= uriList.Count
+        End If
+        '
+        For Each u As String In uriList
+            ret &= u & ","
+        Next
+        '
+        Return ret.TrimEnd(",c")
+    End Function
+
+
     Private Sub Clean()
         Dim z As Integer = 0
         Dim checkMask As New List(Of Boolean)
+        Dim uriIndexList As New List(Of Integer)
         '
         newContentList = New List(Of String())
         deleteContentIndexList = New List(Of Integer)
@@ -326,6 +384,7 @@ Public Class Form1
         '
         For Each cb As CheckBox In Flp_Titel.Controls
             If cb.Checked Then checkMask.Add(True) Else checkMask.Add(False)
+            If cb.Text.ToLower.Contains("_uri") Or cb.Text.ToLower.Contains("_url") Then uriIndexList.Add(z)
             z += 1
         Next
         '
@@ -336,6 +395,8 @@ Public Class Form1
             Dim s() As String
             Dim fnd As Integer
             Dim d As Integer = 0
+            Dim u As String
+            Dim i As Integer
             '
             z = 0
             While z <= workList.Count - 1
@@ -345,17 +406,24 @@ Public Class Form1
                     fnd = FindDouble(s, workList, checkMask)
                     '
                     If fnd > 0 AndAlso fnd <> z Then
-                        For i As Integer = 0 To s.Length - 1
-                            If s(i).IndexOf(workList(fnd)(i)) < 0 Then
+                        For i = 0 To s.Length - 1
+                            If uriIndexList.Contains(i) Then u = CleanUriString(workList(fnd)(i)) Else u = workList(fnd)(i)
+                            If Not s(i).Contains(u) Then
                                 If s(i).Length <= 0 Then s(i) &= workList(fnd)(i) Else s(i) &= "," & workList(fnd)(i)
                             End If
                         Next
-                        processedContentIndexList.Add(z + d) 'contentList.IndexOf(s))
+                        processedContentIndexList.Add(z + d)
                         deleteContentIndexList.Add(fnd + d)
                         workList.RemoveAt(fnd) 'gefundenes Element löschen um nicht mehrmals gefunden zu werden
                         d += 1
                     End If
                 Loop Until fnd < 0
+                '
+                If uriIndexList.Count > 0 Then
+                    For Each i In uriIndexList
+                        s(i) = NoDoubleUri(s(i))
+                    Next
+                End If
                 '
                 newContentList.Add(s)
                 z += 1
@@ -379,7 +447,7 @@ Public Class Form1
         processedContentIndexList = New List(Of Integer)
         '
         For Each cb As CheckBox In Flp_Titel.Controls
-            If cb.Text.ToLower.IndexOf("_uri") > 0 Or cb.Text.ToLower.IndexOf("_url") > 0 Then
+            If cb.Text.ToLower.Contains("_uri") Or cb.Text.ToLower.Contains("_url") Then
                 checkMask.Add(False)
                 uriIndexList.Add(z)
             Else
@@ -405,7 +473,7 @@ Public Class Form1
                     '
                     If fnd >= 0 AndAlso fnd > z Then
                         For Each i As Integer In uriIndexList
-                            If s(i).IndexOf(workList.ElementAt(fnd)(i)) < 0 Then s(i) &= "," & workList.ElementAt(fnd)(i)
+                            If Not s(i).Contains(workList.ElementAt(fnd)(i)) Then s(i) &= "," & workList.ElementAt(fnd)(i)
                         Next
                         '
                         processedContentIndexList.Add(contentList.IndexOf(s))
